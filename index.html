@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>locvisual</title>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=LgkCMuUCnW4lBdklRGnZskqK94PxQ0HW"></script>
+     <script type="text/javascript" src="static/bmob.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <div>
+      <button onclick="test()">查询</button>
+    </div>
+  </body>
+  
+  <script>
+    Bmob.initialize("cedd190c558644d012167c477e2a68c9", "a7afb1ae7d655215788b9e3913280a4e");
+  	var User = Bmob.Object.extend("_User");
+    var query = new Bmob.Query(User);
+	//查询单条数据，第一个参数是这条数据的objectId值
+    var latitude;
+    var longtitude;
+		query.get("54047a671d", {
+      success: function(result) {
+        // 查询成功，调用get方法获取对应属性的值
+        var score = result.get("username");
+        latitude = result.get("Latitude");
+        longtitude = result.get("Longtitude");
+        // alert(score + "," + latitude);
+        console.log("---查询成功"  + latitude + "," + longtitude);
+        //   // 百度地图API功能
+        // var map = new BMap.Map("allmap");
+        // var point = new BMap.Point(longtitude, latitude); // 经纬度相反
+        // map.centerAndZoom(point, 15);
+        // var marker = new BMap.Marker(point);  // 创建标注
+        // map.addOverlay(marker);               // 将标注添加到地图中
+        // marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+
+        },
+      error: function(object, error) {
+      // 查询失败
+        console.log("---"+"查询失败");
+      }
+	  });  
+    function test (){
+      alert(latitude+"-->"+longtitude);
+    };
+  </script
+
+
+</html>
