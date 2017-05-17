@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <Button type="text">历史</Button>
+    <Font type=" " size="4px">个人信息</Font>
   </div>
 </template>
 

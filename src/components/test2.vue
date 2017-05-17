@@ -1,17 +1,26 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
     <Button type="text">被引用</Button>
+    <!--<p v-html="html"></p>-->
   </div>
 </template>
 
 <script>
-// import template from './index.html'
-// let list = Vue.extend({
-//         template: template
-// });
 export default {
   name: 'hello',
+  data () {
+    return {
+      html: '<button v-on:click="test()">删除</button>'
+    }
+  },
+  components: {
+  },
+  methods: {
+    test () {
+      console.log('点击')
+      alert('alagjd')
+    }
+  }
   // components: {
   //   // 'map': {
   //   //   render (createElement) {
@@ -27,12 +36,7 @@ export default {
   //   //   }
   //   // }
   //   // template2: template
-  // },
-  data () {
-    return {
-      msg: 'Welcome to Your  App'
-    }
-  }
+  // }
 }
 </script>
 

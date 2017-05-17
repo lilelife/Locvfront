@@ -6,9 +6,12 @@ import VueRouter from 'vue-router'
 import router from './router/router.js'  // router的路由
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import VueResource from 'vue-resource'
 
 Vue.use(VueRouter)
 Vue.use(iView)
+Vue.use(VueResource)
+// Vue.http.options.xhr = { withCredentials: true }
 
 // const router = new VueRouter({
 //   mode: 'history',
