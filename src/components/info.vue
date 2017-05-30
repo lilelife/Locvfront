@@ -49,6 +49,9 @@
 <script>
 export default {
   name: 'hello',
+  created: function () {
+    this.checklog()
+  },
   data () {
     return {
       msg: 'Welcome to Your LocVisual App',
@@ -70,6 +73,20 @@ export default {
       this.signature = 'die for me'
       this.readonly = true
       this.$Message.error('修改失败')
+    },
+    checklog () {
+      console.log(document.cookie)
+      if (document.cookie === '') {
+        // 如果没有登录状态则跳转到登录页
+        this.$router.push('/loc')
+      } else {
+        // 否则跳转到登录后的页面
+        this.$router.push('/info')
+      }
+    },
+    getCookie (name) {
+      var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)')
+      return v ? v[2] : null
     }
   }
 }

@@ -8,10 +8,10 @@
                         <i-button @click="modal2 = true"  type="Ghost" >{{loadName}}</i-button>
                     </i-col>
                     <i-col span="2" style="padding-top:5px">
-                      <Button type="text" @click="modal = true" size="small">
+                      <i-button type="text" @click="modal = true" size="small">
                         退出登录
                         <Icon type="power"></Icon>
-                      </Button>
+                      </i-button>
                     </i-col>
                     <!--<i-col span="2" style="padding-top:10px">
                         <i-button @click="modal1 = true" size="small" type="text">注册</i-button>
@@ -141,13 +141,15 @@ export default {
     },
     checkLogin () {
       // 检查是否存在session
-      // cookie操作方法在源码里有或者参考网上的即可
+      var s = this.getCookie('session')
+      console.log('checklog' + s)
       if (!this.getCookie('session')) {
         // 如果没有登录状态则跳转到登录页
         this.modal2 = true
         this.$router.push('/loc')
       } else {
         // 否则跳转到登录后的页面
+        this.loadName = '当前用户-：' + s
         this.$router.push('/appinfo')
       }
     },
@@ -159,6 +161,9 @@ export default {
     out () {
       this.loadName = '登录'
       this.$Message.info('退出成功')
+      this.delCookie('session')
+      console.log('out后' + document.cookie)
+      // 删除cookie
     },
     // ok () {
     //   this.$Message.info('OK')
@@ -167,10 +172,9 @@ export default {
       this.$http.jsonp('http://cloud.bmob.cn/133c4eae7f80cff1/login', {username: this.formInline2.email, password: this.formInline2.password}).then(function (response) {
         console.log('--登录成功-' + JSON.stringify(response.body.beal))
         var is = JSON.stringify(response.body.beal)
-        // var expireDays = new Date().getDate()
         if (is) {
           this.$Message.info('登录成功')
-        //   this.setCookie('session', 'blablablablabla...', expireDays)
+          this.setCookie('session', this.formInline2.email, 30)
           this.loadName = '当前用户-：' + this.formInline2.email
         } else {
           this.$Message.info('登录失败')
@@ -183,14 +187,36 @@ export default {
       var exdate = new Date()
       exdate.setDate(exdate.getDate() + expiredays)
       document.cookie = email + '=' + escape(value) + ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
+      console.log('setcookie' + document.cookie)
     },
+    // getCookie (name) {
+    //   var arr = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+    //   var reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+    //   if (arr === document.cookie.match(reg)) {
+    //     console.log('getcookei（）   ' + unescape(arr[2]))
+    //     return unescape(arr[2])
+    //   } else {
+    //     return null
+    //   }
+    // }
     getCookie (name) {
-      var arr = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
-      var reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
-      if (arr === document.cookie.match(reg)) {
-        return unescape(arr[2])
-      } else {
-        return null
+      // var arr = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+      // var reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+      // if (arr === document.cookie.match(reg)) {
+      //   return unescape(arr[2])
+      // } else {
+      //   return null
+      // }
+      var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)')
+      return v ? v[2] : null
+    },
+    delCookie (name) {
+      var exp = new Date()
+      exp.setTime(exp.getTime() - 1)
+      var cval = this.getCookie(name)
+      if (cval !== null) {
+        // document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString()
+        this.setCookie('session', '', -1)
       }
     }
   }

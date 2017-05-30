@@ -10,9 +10,9 @@
     </Row>
       <div style="padding-top:30px"></div>
      <baidu-map class="bm-view" :center="center" :zoom="15"  :scroll-wheel-zoom="true"  @ready="handle" ak="LgkCMuUCnW4lBdklRGnZskqK94PxQ0HW">
-     <bm-marker :position="{lng: 108.83, lat: 34.135}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
+     <bm-marker :position="{lng: 108.838949, lat: 34.135576}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
      <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
-     <bm-label content="您当前所在的位置" :position="{lng: 108.83, lat: 34.135}" :labelStyle="{color: '#3399ff', fontSize : '24px'}" title="Hover me"/>
+     <bm-label content="您当前所在的位置" :position="{lng: 108.838949, lat: 34.135576}" :labelStyle="{color: '#3399ff', fontSize : '24px'}" title="Hover me"/>
      </baidu-map> 
   </div>
 </template>
@@ -29,17 +29,17 @@ export default {
     return {
       html: '<b>地图</b><br><button>click</button>',
       msg: 'Welcome to Your LocVisual App',
-      center: {lng: 108.839509, lat: 34.135265}
+      center: {lng: 108.838949, lat: 34.135576}
     }
   },
   methods: {
     handle () {
       this.$http.jsonp('https://cloud.bmob.cn/133c4eae7f80cff1/getLatlng').then(function (response) {
-        this.center.lng = response.Latitude
+        // this.center.lng = response.Latitude
         // this.$Message.error('开关状态：' + JSON.stringify(response))
         // console.log('--s>' + JSON.stringify(response))
-        // console.log('-->' + JSON.stringify(response.bodyText).Latitude)
-        this.center.lat = response.Longtitude
+        console.log('-->' + JSON.stringify(response.body))
+        // this.center.lat = response.Longtitude
       })
     },
     refresh () {
